@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const uploadForm = document.getElementById("uploadForm");
     const convertButton = document.getElementById("convertButton");
 
-    // Enable the "Convert" button when both file and checkbox are selected
     document.getElementById("fileInput").addEventListener("change", updateButtonStatus);
     document.getElementById("isPublicCheckbox").addEventListener("change", updateButtonStatus);
 
@@ -22,18 +21,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Handle the form submission using Axios
     uploadForm.addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent the default form submission
+        event.preventDefault();
 
-        // Create a new FormData object
         const formData = new FormData(uploadForm);
         console.log("test1");
 
-        axios.post('/api/ConverterApi', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
+        axios.post('/api/ConverterApi/upload-file', formData, {
+        
         })
             .then(response => {
 
@@ -43,16 +38,22 @@ document.addEventListener("DOMContentLoaded", function () {
                     text: 'File converted and uploaded successfully!',
                     timer: 2000
                 });
-                // Optional: Update the view with the converted JSON data or any other information
-                // ...
             })
             .catch(error => {
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Message',
-                    text: error.response.data.title ?? error.response.data.errorMsg
-                });
+                if (error.response.status === 404) {
+                    // URL not found (404 error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Not Found',
+                        text: 'The requested URL was not found. Please check the URL and try again.'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Message',
+                        text: error.response.data.title ?? error.response.data.errorMsg
+                    });
+                }
             });
     });
 });

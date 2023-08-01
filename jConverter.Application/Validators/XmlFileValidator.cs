@@ -6,15 +6,11 @@ namespace jConverter.Application.Validators
     public class XmlFileValidator : AbstractValidator<InputRequestModel>
     {
         public XmlFileValidator()
-        {        
-            RuleFor(x => x)
-                .NotNull()
-                .WithMessage("Please upload a valid xml file with an .xml extension.");
-
-            RuleFor(x => x.FileName)
-                .Cascade(CascadeMode.Stop)
-                .NotNull()
-                .Must(file => file.EndsWith(".xml", StringComparison.OrdinalIgnoreCase));
+        {
+            RuleFor(x => x).NotNull();
+            RuleFor(x => x.ConverterType).NotNull();
+            RuleFor(x => x.File).NotNull();
+            RuleFor(x => x.FileName).NotNull();
         }
     }
 }

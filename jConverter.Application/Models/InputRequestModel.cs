@@ -8,10 +8,10 @@ namespace jConverter.Application.Models
         [JsonPropertyName("file")]
         public IFormFile File { get; set; }
 
-        [JsonPropertyName("filename")]
+        [JsonPropertyName("fileName")]
         public string FileName { get; set; }
 
-        [JsonPropertyName("convertertype")]
+        [JsonPropertyName("converterType")]
         public string ConverterType { get; set; }        
     }
 }

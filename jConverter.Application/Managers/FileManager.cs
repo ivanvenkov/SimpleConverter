@@ -28,12 +28,11 @@ namespace jConverter.Application.Managers
                 var convertedFileName = this.GetFileNameWithExtension(request.FileName, convertedResult.Extension);
 
                 if (this.FileNameExists(path, convertedFileName))
-                    throw new FileExistsException($"File with name \"{convertedFileName}\" already exists on the server");
+                    throw new FileExistsException($"File with name \'{convertedFileName}\' already exists on the server");
 
-                this.dbContext.Files.Add(new FileEntity
-                {
+                this.dbContext.Files.Add(new FileEntity{
                     OriginalFile = await this.ConvertIFormFileToString(request.File),
-                    OriginalFileName = request.FileName.ToLower(),
+                    OriginalFileName = request.FileName,
                     CreatedOn = DateTime.Now,
                     ConvertedFile = convertedResult.FileData,
                     ConvertedFileName = convertedFileName
@@ -70,7 +69,7 @@ namespace jConverter.Application.Managers
                             && t.Name.Contains(type)).FirstOrDefault();
 
             if (converterStrategy == null)
-                throw new ArgumentException($"There is no '{converterStrategy}' currently in this version of the File Converter.");
+                throw new ArgumentException($"There is no '{converterStrategy}' conversion currently in this version of the FileConverter.");
 
             var converter = (IConverter)Activator.CreateInstance(converterStrategy);
             var convertedResult = await converter.Convert(request.File);

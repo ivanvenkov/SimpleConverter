@@ -1,4 +1,5 @@
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using jConverter.Application.Filters;
 using jConverter.Application.Managers;
 using jConverter.Application.Validators;
@@ -10,7 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddScoped<IFileManager, FileManager>();
 builder.Services.AddControllersWithViews(opt =>
 {
     opt.Filters.Add<ValidationFilter>();
@@ -19,8 +19,10 @@ builder.Services.AddControllersWithViews(opt =>
     opt.SuppressModelStateInvalidFilter = true;
 });
 
-//builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<XmlFileValidator>();
+
+builder.Services.AddScoped<IFileManager, FileManager>();
 
 builder.Services.AddDbContext<ConverterDbContext>(opt =>
 {
@@ -29,8 +31,10 @@ builder.Services.AddDbContext<ConverterDbContext>(opt =>
 
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 app.UseMiddleware<ExceptionMiddleware>();
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

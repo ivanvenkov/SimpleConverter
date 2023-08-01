@@ -20,3 +20,34 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+footer {
+    background-color: #e3ddd5;
+    text-align: center;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    margin-top: 20px;
+}
+
+#convertButton {
+    justify-self: end;
+    color: #f0e1ce;
+    border-radius: 5px;
+}
+
+.file-upload-label {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: #f0e1ce;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.file-upload-label:hover {
+    background-color: #0056b3;
+}

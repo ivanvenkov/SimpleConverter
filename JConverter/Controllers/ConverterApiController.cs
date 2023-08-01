@@ -13,7 +13,10 @@ namespace JConverter.Controllers
         public ConverterApiController(IFileManager fileManager)
             => this.fileManager = fileManager;
 
-        [HttpPost]
+        /// <summary>
+        /// Uploads files to the file system.
+        /// </summary>
+        [HttpPost("upload-file")]
         public async Task<ActionResult> UploadFile([FromForm] InputRequestModel request)
         {
             var convertedFile = await this.fileManager.Upload(request);
